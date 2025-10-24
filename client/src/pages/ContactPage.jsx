@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
+import emailjs from '@emailjs/browser';
 import { Navbar } from '../components/Navbar';
 
 export const ContactPage = () => {
@@ -24,17 +25,51 @@ export const ContactPage = () => {
         e.preventDefault();
         setSending(true);
 
-        // Simulate sending (you can integrate with a real email service later)
-        setTimeout(() => {
+        // EmailJS configuration
+        const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+        const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+        const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+        // Check if EmailJS is configured
+        if (!serviceId || !templateId || !publicKey) {
+            toast.error('Email service is not configured. Please contact the administrator.');
+            setSending(false);
+            return;
+        }
+
+        // Template parameters - these match the variables in your EmailJS template
+        const templateParams = {
+            from_name: formData.name,
+            from_email: formData.email,
+            subject: formData.subject,
+            message: formData.message,
+            to_email: 'singason65@gmail.com', // Your email
+        };
+
+        try {
+            // Send email using EmailJS
+            await emailjs.send(
+                serviceId,
+                templateId,
+                templateParams,
+                publicKey
+            );
+
             toast.success('Message sent successfully! We\'ll get back to you soon.');
+
+            // Reset form
             setFormData({
                 name: '',
                 email: '',
                 subject: '',
                 message: ''
             });
+        } catch (error) {
+            console.error('Email send error:', error);
+            toast.error('Failed to send message. Please try again or contact us via WhatsApp.');
+        } finally {
             setSending(false);
-        }, 1500);
+        }
     };
 
     const socialLinks = [
