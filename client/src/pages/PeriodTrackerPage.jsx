@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 import { Navbar } from '../components/Navbar';
 import { api } from '../services/api';
 
@@ -43,6 +44,7 @@ export const PeriodTrackerPage = () => {
         onSuccess: () => {
             queryClient.invalidateQueries(['periodEntries']);
             queryClient.invalidateQueries(['cycleInsights']);
+            toast.success('Period entry saved successfully!');
             setShowForm(false);
             setFormData({
                 startDate: '',
@@ -51,6 +53,10 @@ export const PeriodTrackerPage = () => {
                 symptoms: [],
                 notes: ''
             });
+        },
+        onError: (error) => {
+            const message = error.response?.data?.message || 'Failed to save period entry';
+            toast.error(message);
         }
     });
 
