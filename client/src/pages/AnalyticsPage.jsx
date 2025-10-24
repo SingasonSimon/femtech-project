@@ -4,6 +4,21 @@ import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
+import {
+    LineChart,
+    Line,
+    AreaChart,
+    Area,
+    PieChart,
+    Pie,
+    Cell,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ResponsiveContainer
+} from 'recharts';
 
 export const AnalyticsPage = () => {
     const { isAdmin } = useAuth();
@@ -49,6 +64,16 @@ export const AnalyticsPage = () => {
         </motion.div>
     );
 
+    // Colors for charts
+    const COLORS = {
+        primary: '#c026d3',
+        secondary: '#14b8a6',
+        tertiary: '#3b82f6',
+        quaternary: '#f59e0b'
+    };
+
+    const PIE_COLORS = ['#c026d3', '#14b8a6', '#3b82f6', '#f59e0b', '#ef4444'];
+
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
             <Navbar />
@@ -60,18 +85,18 @@ export const AnalyticsPage = () => {
                     transition={{ duration: 0.6 }}
                 >
                     {/* Header */}
-                    <div className="flex justify-between items-center mb-8">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
                         <div>
-                            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
                                 Analytics Dashboard
                             </h1>
-                            <p className="text-gray-600 dark:text-gray-400">
+                            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
                                 View platform statistics and insights
                             </p>
                         </div>
                         <button
                             onClick={() => navigate('/dashboard')}
-                            className="px-6 py-3 border-2 border-primary-600 text-primary-600 dark:text-primary-400 rounded-lg font-semibold hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
+                            className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 border-2 border-primary-600 text-primary-600 dark:text-primary-400 rounded-lg font-semibold hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors text-center"
                         >
                             Back to Dashboard
                         </button>
@@ -113,6 +138,155 @@ export const AnalyticsPage = () => {
                                     color="text-orange-700 dark:text-orange-300"
                                     bgColor="bg-orange-50 dark:bg-orange-900/20"
                                 />
+                            </div>
+
+                            {/* Charts Section */}
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                                {/* User Growth Chart */}
+                                <motion.div
+                                    className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6, delay: 0.1 }}
+                                >
+                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                                        User Growth (Last 30 Days)
+                                    </h3>
+                                    {adminStats?.userGrowth?.length > 0 ? (
+                                        <ResponsiveContainer width="100%" height={250}>
+                                            <AreaChart data={adminStats.userGrowth}>
+                                                <defs>
+                                                    <linearGradient id="colorUsers" x1="0" y1="0" x2="0" y2="1">
+                                                        <stop offset="5%" stopColor={COLORS.primary} stopOpacity={0.8} />
+                                                        <stop offset="95%" stopColor={COLORS.primary} stopOpacity={0} />
+                                                    </linearGradient>
+                                                </defs>
+                                                <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.1} />
+                                                <XAxis
+                                                    dataKey="date"
+                                                    tick={{ fill: '#9ca3af', fontSize: 12 }}
+                                                    tickFormatter={(date) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                                />
+                                                <YAxis tick={{ fill: '#9ca3af', fontSize: 12 }} />
+                                                <Tooltip
+                                                    contentStyle={{
+                                                        backgroundColor: '#1f2937',
+                                                        border: 'none',
+                                                        borderRadius: '8px',
+                                                        color: '#fff'
+                                                    }}
+                                                />
+                                                <Area type="monotone" dataKey="users" stroke={COLORS.primary} fillOpacity={1} fill="url(#colorUsers)" />
+                                            </AreaChart>
+                                        </ResponsiveContainer>
+                                    ) : (
+                                        <div className="h-[250px] flex items-center justify-center text-gray-500 dark:text-gray-400">
+                                            No user growth data available
+                                        </div>
+                                    )}
+                                </motion.div>
+
+                                {/* User Role Distribution */}
+                                <motion.div
+                                    className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6, delay: 0.15 }}
+                                >
+                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                                        User Role Distribution
+                                    </h3>
+                                    {adminStats?.userRoles?.length > 0 ? (
+                                        <ResponsiveContainer width="100%" height={250}>
+                                            <PieChart>
+                                                <Pie
+                                                    data={adminStats.userRoles}
+                                                    cx="50%"
+                                                    cy="50%"
+                                                    labelLine={false}
+                                                    label={({ role, count, percent }) => `${role}: ${count} (${(percent * 100).toFixed(0)}%)`}
+                                                    outerRadius={80}
+                                                    fill="#8884d8"
+                                                    dataKey="count"
+                                                >
+                                                    {adminStats.userRoles.map((entry, index) => (
+                                                        <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
+                                                    ))}
+                                                </Pie>
+                                                <Tooltip
+                                                    contentStyle={{
+                                                        backgroundColor: '#1f2937',
+                                                        border: 'none',
+                                                        borderRadius: '8px',
+                                                        color: '#fff'
+                                                    }}
+                                                />
+                                            </PieChart>
+                                        </ResponsiveContainer>
+                                    ) : (
+                                        <div className="h-[250px] flex items-center justify-center text-gray-500 dark:text-gray-400">
+                                            No role distribution data available
+                                        </div>
+                                    )}
+                                </motion.div>
+
+                                {/* Content Creation Trends */}
+                                <motion.div
+                                    className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 lg:col-span-2"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6, delay: 0.2 }}
+                                >
+                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                                        Content Creation Trends (Last 30 Days)
+                                    </h3>
+                                    {adminStats?.contentGrowth && (adminStats.contentGrowth.posts?.length > 0 || adminStats.contentGrowth.articles?.length > 0) ? (
+                                        <ResponsiveContainer width="100%" height={300}>
+                                            <LineChart>
+                                                <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.1} />
+                                                <XAxis
+                                                    dataKey="date"
+                                                    type="category"
+                                                    allowDuplicatedCategory={false}
+                                                    tick={{ fill: '#9ca3af', fontSize: 12 }}
+                                                    tickFormatter={(date) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                                />
+                                                <YAxis tick={{ fill: '#9ca3af', fontSize: 12 }} />
+                                                <Tooltip
+                                                    contentStyle={{
+                                                        backgroundColor: '#1f2937',
+                                                        border: 'none',
+                                                        borderRadius: '8px',
+                                                        color: '#fff'
+                                                    }}
+                                                />
+                                                <Legend />
+                                                <Line
+                                                    type="monotone"
+                                                    dataKey="count"
+                                                    data={adminStats.contentGrowth.posts}
+                                                    name="Forum Posts"
+                                                    stroke={COLORS.secondary}
+                                                    strokeWidth={2}
+                                                    dot={{ fill: COLORS.secondary }}
+                                                />
+                                                <Line
+                                                    type="monotone"
+                                                    dataKey="count"
+                                                    data={adminStats.contentGrowth.articles}
+                                                    name="Articles"
+                                                    stroke={COLORS.tertiary}
+                                                    strokeWidth={2}
+                                                    dot={{ fill: COLORS.tertiary }}
+                                                />
+                                            </LineChart>
+                                        </ResponsiveContainer>
+                                    ) : (
+                                        <div className="h-[300px] flex items-center justify-center text-gray-500 dark:text-gray-400">
+                                            No content creation data available
+                                        </div>
+                                    )}
+                                </motion.div>
                             </div>
 
                             {/* Additional Stats */}

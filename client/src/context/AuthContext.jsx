@@ -17,6 +17,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [authChecked, setAuthChecked] = useState(false);
 
   // --- FIX ---
   // We wrap logout in useCallback to make it a "stable" function.
@@ -46,18 +47,36 @@ export const AuthProvider = ({ children }) => {
   }, [logout]); // Pass the stable logout function
 
   useEffect(() => {
+    // Prevent duplicate auth checks (React Strict Mode runs effects twice in dev)
+    if (authChecked) return;
+
     const checkAuth = async () => {
+      setAuthChecked(true);
       try {
-        const response = await api.get('/auth/me');
-        setUser(response.data.user);
+        const response = await api.get('/auth/me', {
+          validateStatus: (status) => {
+            // Treat both 200 and 401 as successful responses
+            // This prevents axios from throwing an error on 401
+            return status === 200 || status === 401;
+          }
+        });
+
+        // Check if the response was successful
+        if (response.status === 200) {
+          setUser(response.data.user);
+        } else {
+          // 401 - not authenticated, which is fine
+          setUser(null);
+        }
       } catch (error) {
+        // Handle other unexpected errors (not 401)
         setUser(null);
       } finally {
         setLoading(false);
       }
     };
     checkAuth();
-  }, []); // Removed checkAuth from dependency array, define inline
+  }, [authChecked]); // Added authChecked to dependency array
 
   const login = async (email, password) => {
     try {

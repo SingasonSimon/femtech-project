@@ -15,6 +15,79 @@ export const getAdminStats = async (req, res) => {
             PeriodEntry.countDocuments()
         ]);
 
+        // Get user growth over last 30 days
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+        const userGrowth = await User.aggregate([
+            {
+                $match: {
+                    createdAt: { $gte: thirtyDaysAgo }
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
+                    },
+                    count: { $sum: 1 }
+                }
+            },
+            {
+                $sort: { _id: 1 }
+            }
+        ]);
+
+        // Get content growth over last 30 days
+        const contentGrowth = await Promise.all([
+            Post.aggregate([
+                {
+                    $match: {
+                        createdAt: { $gte: thirtyDaysAgo }
+                    }
+                },
+                {
+                    $group: {
+                        _id: {
+                            $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
+                        },
+                        count: { $sum: 1 }
+                    }
+                },
+                {
+                    $sort: { _id: 1 }
+                }
+            ]),
+            Article.aggregate([
+                {
+                    $match: {
+                        createdAt: { $gte: thirtyDaysAgo }
+                    }
+                },
+                {
+                    $group: {
+                        _id: {
+                            $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
+                        },
+                        count: { $sum: 1 }
+                    }
+                },
+                {
+                    $sort: { _id: 1 }
+                }
+            ])
+        ]);
+
+        // Get user role distribution
+        const userRoles = await User.aggregate([
+            {
+                $group: {
+                    _id: "$role",
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+
         res.json({
             success: true,
             data: {
@@ -22,7 +95,25 @@ export const getAdminStats = async (req, res) => {
                 totalPosts,
                 totalArticles,
                 totalProducts,
-                totalPeriodEntries
+                totalPeriodEntries,
+                userGrowth: userGrowth.map(item => ({
+                    date: item._id,
+                    users: item.count
+                })),
+                contentGrowth: {
+                    posts: contentGrowth[0].map(item => ({
+                        date: item._id,
+                        count: item.count
+                    })),
+                    articles: contentGrowth[1].map(item => ({
+                        date: item._id,
+                        count: item.count
+                    }))
+                },
+                userRoles: userRoles.map(item => ({
+                    role: item._id,
+                    count: item.count
+                }))
             }
         });
     } catch (error) {

@@ -220,10 +220,14 @@ export const getCycleInsights = async (req, res) => {
                 success: true,
                 data: {
                     averageCycleLength: null,
-                    averagePeriodDuration: null,
-                    nextPredictedPeriod: null,
+                    averagePeriodLength: null,
+                    nextPredictedDate: null,
                     cycleRegularity: 'insufficient_data',
-                    insights: ['Add more period entries to get cycle insights']
+                    totalCycles: entries.length,
+                    insights: ['Add more period entries to get cycle insights'],
+                    tips: entries.length === 1
+                        ? ['💡 Great start! Log at least one more period to see cycle predictions and insights.']
+                        : ['💡 Start tracking your periods to get personalized insights and predictions!']
                 }
             });
         }
@@ -344,8 +348,8 @@ export const getCycleInsights = async (req, res) => {
             success: true,
             data: {
                 averageCycleLength,
-                averagePeriodDuration,
-                nextPredictedPeriod: nextPredictedPeriod.toISOString(),
+                averagePeriodLength: averagePeriodDuration,
+                nextPredictedDate: nextPredictedPeriod.toISOString(),
                 cycleRegularity,
                 insights,
                 tips,

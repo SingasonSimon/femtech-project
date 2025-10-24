@@ -49,7 +49,7 @@ export const DashboardPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                 >
-                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-6 sm:mb-8">
                         Welcome back, {user?.displayName || 'User'}!
                     </h1>
 
@@ -171,43 +171,43 @@ export const DashboardPage = () => {
 
                             {/* Admin Stats */}
                             {adminStats && (
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                                    <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
-                                        <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+                                    <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 sm:p-4">
+                                        <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">
                                             {adminStats.totalUsers || 0}
                                         </div>
-                                        <div className="text-sm text-blue-700 dark:text-blue-300">Total Users</div>
+                                        <div className="text-xs sm:text-sm text-blue-700 dark:text-blue-300">Total Users</div>
                                     </div>
-                                    <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4">
-                                        <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                                    <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-3 sm:p-4">
+                                        <div className="text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400">
                                             {adminStats.totalPosts || 0}
                                         </div>
-                                        <div className="text-sm text-green-700 dark:text-green-300">Forum Posts</div>
+                                        <div className="text-xs sm:text-sm text-green-700 dark:text-green-300">Forum Posts</div>
                                     </div>
-                                    <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4">
-                                        <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                                    <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-3 sm:p-4">
+                                        <div className="text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400">
                                             {adminStats.totalArticles || 0}
                                         </div>
-                                        <div className="text-sm text-purple-700 dark:text-purple-300">Articles</div>
+                                        <div className="text-xs sm:text-sm text-purple-700 dark:text-purple-300">Articles</div>
                                     </div>
-                                    <div className="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-4">
-                                        <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+                                    <div className="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-3 sm:p-4">
+                                        <div className="text-xl sm:text-2xl font-bold text-orange-600 dark:text-orange-400">
                                             {adminStats.totalProducts || 0}
                                         </div>
-                                        <div className="text-sm text-orange-700 dark:text-orange-300">Products</div>
+                                        <div className="text-xs sm:text-sm text-orange-700 dark:text-orange-300">Products</div>
                                     </div>
                                 </div>
                             )}
 
                             {/* Admin Actions */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <Link to="/admin/users" className="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors text-center">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                                <Link to="/admin/users" className="p-3 sm:p-4 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors text-center text-sm sm:text-base font-medium">
                                     👥 Manage Users
                                 </Link>
-                                <Link to="/admin/articles" className="p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors text-center">
+                                <Link to="/admin/articles" className="p-3 sm:p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors text-center text-sm sm:text-base font-medium">
                                     📝 Manage Articles
                                 </Link>
-                                <Link to="/admin/analytics" className="p-4 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors text-center">
+                                <Link to="/admin/analytics" className="p-3 sm:p-4 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors text-center text-sm sm:text-base font-medium">
                                     📊 View Analytics
                                 </Link>
                             </div>
