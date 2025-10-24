@@ -78,14 +78,14 @@ const productValidation = [
 router.get('/', optionalAuth, getProducts);
 router.get('/featured', getFeaturedProducts);
 router.get('/categories', getProductCategories);
-router.get('/:id', optionalAuth, getProduct);
+router.get('/:slug', optionalAuth, getProduct);
 
 // Protected routes (auth required)
 router.use(authenticateToken);
 
 // Admin/Author routes
 router.post('/', requireAdmin, upload.array('images', 5), productValidation, createProduct);
-router.put('/:id', upload.array('images', 5), productValidation, updateProduct);
-router.delete('/:id', deleteProduct);
+router.put('/:slug', upload.array('images', 5), productValidation, updateProduct);
+router.delete('/:slug', deleteProduct);
 
 export default router;

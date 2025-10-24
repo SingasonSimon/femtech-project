@@ -41,7 +41,7 @@ A modern MERN stack application for women's health tracking, community engagemen
 
 1. **Clone and setup**
    ```bash
-   git clone <https://github.com/SingasonSimon/femtech-project.git>
+   git clone https://github.com/SingasonSimon/femtech-project.git
    cd femtech-project
    ```
 

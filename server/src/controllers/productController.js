@@ -177,38 +177,50 @@ export const getProducts = async (req, res) => {
 
 export const getProduct = async (req, res) => {
     try {
-        const { id } = req.params;
-        const userId = req.user?._id; // Optional for guest users
+        // --- FIX: Read 'slug' from params ---
+        const { slug } = req.params;
+        const userId = req.user?._id;
 
-        const product = await Product.findById(id)
+        console.log(`Fetching product with slug: ${slug}`);
+
+        // --- FIX: Use findOne({ slug: slug }) ---
+        const product = await Product.findOne({ slug: slug })
             .populate('createdBy', 'displayName email');
 
+        // Check if product exists and is active
         if (!product || !product.isActive) {
+            console.log(`Product not found or inactive for slug: ${slug}`);
             return res.status(404).json({
                 success: false,
                 message: 'Product not found'
             });
         }
 
-        // Track view for logged-in users only (one view per user)
+        console.log(`Product found: ${product.name}, ID: ${product._id}`); // Log the ID too
+
+        // Track view logic (use product._id)
         if (userId) {
             try {
-                // Try to create a new view record
+                console.log(`Attempting to track view for user ${userId} on product ${product._id}`);
                 await View.create({
                     userId,
                     targetType: 'Product',
-                    targetId: id
+                    targetId: product._id // Use the found product's ID
                 });
 
-                // If successful, increment the view count
-                product.viewsCount += 1;
+                product.viewsCount = (product.viewsCount || 0) + 1;
                 await product.save();
+                console.log(`View tracked successfully for product ${product._id}. New count: ${product.viewsCount}`);
+
             } catch (viewError) {
-                // If view already exists (duplicate key error), don't increment
-                if (viewError.code !== 11000) {
-                    console.error('View tracking error:', viewError);
+                if (viewError.code === 11000) {
+                     console.log(`View already exists for user ${userId} on product ${product._id}.`);
+                } else {
+                    console.error('Product view tracking error:', viewError);
                 }
             }
+        } else {
+             console.log('User not logged in, not tracking view.');
         }
 
         res.json({
