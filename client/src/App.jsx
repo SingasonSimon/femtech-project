@@ -20,6 +20,7 @@ import { ManageUsersPage } from './pages/ManageUsersPage';
 import { ManageArticlesPage } from './pages/ManageArticlesPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { ProfilePage } from './pages/ProfilePage';
+import { ContactPage } from './pages/ContactPage';
 
 function App() {
   return (
@@ -102,6 +103,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* Contact page */}
+        <Route path="/contact" element={<ContactPage />} />
 
         {/* Admin routes */}
         <Route

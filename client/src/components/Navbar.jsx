@@ -55,6 +55,12 @@ export const Navbar = () => {
                 >
                   Products
                 </Link>
+                <Link
+                  to="/contact"
+                  className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                >
+                  Contact
+                </Link>
               </>
             )}
           </div>
