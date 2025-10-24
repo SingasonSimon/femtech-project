@@ -43,7 +43,7 @@ export const LandingPage = () => {
             className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6"
             variants={itemVariants}
           >
-            Hello{' '}
+            {' '}
             <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
               FemTech
             </span>

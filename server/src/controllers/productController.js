@@ -22,6 +22,7 @@ export const createProduct = async (req, res) => {
             originalPrice,
             category,
             brand,
+            productUrl,
             specifications,
             stock,
             variants,
@@ -61,6 +62,7 @@ export const createProduct = async (req, res) => {
             originalPrice,
             category,
             brand,
+            productUrl,
             specifications: specifications ? JSON.parse(specifications) : {
                 dimensions: '',
                 weight: '',
@@ -214,13 +216,13 @@ export const getProduct = async (req, res) => {
 
             } catch (viewError) {
                 if (viewError.code === 11000) {
-                     console.log(`View already exists for user ${userId} on product ${product._id}.`);
+                    console.log(`View already exists for user ${userId} on product ${product._id}.`);
                 } else {
                     console.error('Product view tracking error:', viewError);
                 }
             }
         } else {
-             console.log('User not logged in, not tracking view.');
+            console.log('User not logged in, not tracking view.');
         }
 
         res.json({
@@ -276,6 +278,7 @@ export const updateProduct = async (req, res) => {
             originalPrice,
             category,
             brand,
+            productUrl,
             specifications,
             stock,
             variants,
@@ -292,6 +295,7 @@ export const updateProduct = async (req, res) => {
         if (originalPrice !== undefined) product.originalPrice = originalPrice;
         if (category) product.category = category;
         if (brand) product.brand = brand;
+        if (productUrl !== undefined) product.productUrl = productUrl;
         if (specifications) product.specifications = JSON.parse(specifications);
         if (stock) product.stock = JSON.parse(stock);
         if (variants) product.variants = JSON.parse(variants);

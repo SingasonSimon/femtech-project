@@ -89,7 +89,7 @@ export const ProductsPage = () => {
                         {isAdmin && (
                             <div className="absolute top-0 right-0 pt-8">
                                 <motion.button
-                                    className="btn-primary px-4 py-2" // Use global style
+                                    className="px-6 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors shadow-lg hover:shadow-xl"
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                     onClick={() => navigate('/products/create')}
@@ -100,26 +100,26 @@ export const ProductsPage = () => {
                         )}
                     </div>
 
-                    {/* Filters */} <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-8"> <div className="grid grid-cols-1 md:grid-cols-3 gap-4"> <div> <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"> Category </label> <select value={filters.category} onChange={(e) => handleFilterChange('category', e.target.value)} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" > {categories.map(category => ( <option key={category.value} value={category.value}> {category.label} </option> ))} </select> </div> <div> <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"> Sort By </label> <select value={filters.sort} onChange={(e) => handleFilterChange('sort', e.target.value)} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" > {sortOptions.map(option => ( <option key={option.value} value={option.value}> {option.label} </option> ))} </select> </div> <div> <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"> Search </label> <input type="text" value={filters.search} onChange={(e) => handleFilterChange('search', e.target.value)} placeholder="Search products..." className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" /> </div> </div> </div>
+                    {/* Filters */} <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-8"> <div className="grid grid-cols-1 md:grid-cols-3 gap-4"> <div> <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"> Category </label> <select value={filters.category} onChange={(e) => handleFilterChange('category', e.target.value)} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" > {categories.map(category => (<option key={category.value} value={category.value}> {category.label} </option>))} </select> </div> <div> <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"> Sort By </label> <select value={filters.sort} onChange={(e) => handleFilterChange('sort', e.target.value)} className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" > {sortOptions.map(option => (<option key={option.value} value={option.value}> {option.label} </option>))} </select> </div> <div> <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"> Search </label> <input type="text" value={filters.search} onChange={(e) => handleFilterChange('search', e.target.value)} placeholder="Search products..." className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white" /> </div> </div> </div>
 
                     {/* Products Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {productsLoading ? (
                             // Loading skeleton
                             Array.from({ length: 6 }).map((_, index) => (
-                                 <div key={index} className="bg-white dark:bg-gray-800 rounded-lg shadow-md h-96 animate-pulse">
-                                     <div className="h-48 bg-gray-200 dark:bg-gray-700 rounded-t-lg"></div>
-                                     <div className="p-6 space-y-4">
-                                         <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4"></div>
-                                         <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
-                                         <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
-                                         <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
-                                         <div className="flex justify-between pt-4">
-                                             <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
-                                             <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded w-1/4"></div>
-                                         </div>
-                                     </div>
-                                 </div>
+                                <div key={index} className="bg-white dark:bg-gray-800 rounded-lg shadow-md h-96 animate-pulse">
+                                    <div className="h-48 bg-gray-200 dark:bg-gray-700 rounded-t-lg"></div>
+                                    <div className="p-6 space-y-4">
+                                        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4"></div>
+                                        <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+                                        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
+                                        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-5/6"></div>
+                                        <div className="flex justify-between pt-4">
+                                            <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
+                                            <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded w-1/4"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             ))
                         ) : productsData?.data && productsData.data.length > 0 ? (
                             productsData.data.map((product, index) => {
@@ -187,18 +187,18 @@ export const ProductsPage = () => {
                                             {/* Price & Button */}
                                             <div className="flex items-center justify-between mt-auto">
                                                 <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">
-                                                     ${product.price?.toFixed(2)}
+                                                    ${product.price?.toFixed(2)}
                                                 </span>
                                                 {/* This Link is clickable on its own, stopping propagation */}
                                                 <Link
                                                     to={`/products/${product.slug}`}
-                                                    className="btn-primary px-4 py-2 text-sm" // Use global style
+                                                    className="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-semibold hover:bg-primary-700 transition-colors shadow-md hover:shadow-lg"
                                                     onClick={(e) => {
                                                         // --- ADDED LOG ---
-                                                         console.log(`[ProductsPage] Navigating via Link to /products/${product.slug}`);
-                                                         // --- END LOG ---
-                                                         e.stopPropagation(); // Prevent card's onClick
-                                                     }}
+                                                        console.log(`[ProductsPage] Navigating via Link to /products/${product.slug}`);
+                                                        // --- END LOG ---
+                                                        e.stopPropagation(); // Prevent card's onClick
+                                                    }}
                                                 >
                                                     View Details
                                                 </Link>
@@ -209,31 +209,24 @@ export const ProductsPage = () => {
                             })
                         ) : (
                             // No products message
-                             <div className="col-span-full text-center py-16 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                            <div className="col-span-full text-center py-16 bg-white dark:bg-gray-800 rounded-lg shadow-md">
                                 <svg className="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                                 </svg>
                                 <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-2">
-                                     No products found
-                                 </h3>
-                                 <p className="text-gray-500 dark:text-gray-400">
-                                     {filters.search || filters.category !== 'all'
+                                    No products found
+                                </h3>
+                                <p className="text-gray-500 dark:text-gray-400">
+                                    {filters.search || filters.category !== 'all'
                                         ? 'Try adjusting your search or filter criteria.'
                                         : 'Check back soon for amazing FemTech products!'
-                                     }
+                                    }
                                 </p>
-                             </div>
+                            </div>
                         )}
                     </div>
                 </motion.div>
             </main>
-             {/* Include styles if not using Tailwind globally */}
-             <style jsx global>{`
-                .input-styles { @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white bg-white transition-colors; }
-                .btn-primary { @apply bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900; }
-                .btn-secondary { @apply border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900; }
-                /* Add other global styles if needed */
-            `}</style>
         </div>
     );
 };

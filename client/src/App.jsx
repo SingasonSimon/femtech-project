@@ -15,9 +15,11 @@ import { CreateArticlePage } from './pages/CreateArticlePage';
 import { ProductsPage } from './pages/ProductsPage';
 import { ProductDetailPage } from './pages/ProductDetailPage';
 import { CreateProductPage } from './pages/CreateProductPage';
-
-// --- 1. IMPORT THE NEW PAGE ---
 import { PostDetailPage } from './pages/PostDetailPage';
+import { ManageUsersPage } from './pages/ManageUsersPage';
+import { ManageArticlesPage } from './pages/ManageArticlesPage';
+import { AnalyticsPage } from './pages/AnalyticsPage';
+import { ProfilePage } from './pages/ProfilePage';
 
 function App() {
   return (
@@ -50,6 +52,14 @@ function App() {
           element={
             <ProtectedRoute>
               <PeriodTrackerPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
             </ProtectedRoute>
           }
         />
@@ -92,7 +102,32 @@ function App() {
             </ProtectedRoute>
           }
         />
-        {/* Additional routes will be added progressively */}
+
+        {/* Admin routes */}
+        <Route
+          path="/admin/users"
+          element={
+            <ProtectedRoute>
+              <ManageUsersPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/articles"
+          element={
+            <ProtectedRoute>
+              <ManageArticlesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/analytics"
+          element={
+            <ProtectedRoute>
+              <AnalyticsPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </div>
   );

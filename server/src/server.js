@@ -42,6 +42,8 @@ import forumRoutes from './routes/forum.routes.js';
 import articleRoutes from './routes/article.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 import productRoutes from './routes/product.routes.js';
+import profileRoutes from './routes/profile.routes.js';
+import reviewRoutes from './routes/review.routes.js';
 // import analyticsRoutes from './routes/analytics.routes.js';
 
 // Use routes
@@ -51,6 +53,8 @@ app.use('/api/v1/posts', forumRoutes);
 app.use('/api/v1/articles', articleRoutes);
 app.use('/api/v1/admin', adminRoutes);
 app.use('/api/v1/products', productRoutes);
+app.use('/api/v1/profile', profileRoutes);
+app.use('/api/v1/reviews', reviewRoutes);
 // app.use('/api/v1/analytics', analyticsRoutes);
 
 // Error handling middleware

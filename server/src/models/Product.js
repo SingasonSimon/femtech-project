@@ -7,6 +7,12 @@ const productSchema = new mongoose.Schema({
         trim: true,
         maxlength: 200
     },
+    slug: {
+        type: String,
+        unique: true,
+        lowercase: true,
+        trim: true
+    },
     description: {
         type: String,
         required: true,
@@ -39,6 +45,10 @@ const productSchema = new mongoose.Schema({
         type: String,
         unique: true,
         sparse: true
+    },
+    productUrl: {
+        type: String,
+        trim: true
     },
     images: [{
         url: String,
@@ -132,8 +142,34 @@ productSchema.virtual('stockStatus').get(function () {
     return 'in_stock';
 });
 
-// Pre-save middleware to update stock status and generate SKU
-productSchema.pre('save', function (next) {
+// Helper function to generate slug
+function generateSlug(name) {
+    return name
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, '') // Remove special characters
+        .replace(/\s+/g, '-')      // Replace spaces with hyphens
+        .replace(/--+/g, '-')      // Replace multiple hyphens with single hyphen
+        .replace(/^-+|-+$/g, '');  // Remove leading/trailing hyphens
+}
+
+// Pre-save middleware to update stock status, generate SKU, and generate slug
+productSchema.pre('save', async function (next) {
+    // Generate slug if not provided or if name changed
+    if (!this.slug || this.isModified('name')) {
+        let baseSlug = generateSlug(this.name);
+        let slug = baseSlug;
+        let counter = 1;
+
+        // Ensure slug is unique
+        while (await mongoose.model('Product').findOne({ slug, _id: { $ne: this._id } })) {
+            slug = `${baseSlug}-${counter}`;
+            counter++;
+        }
+
+        this.slug = slug;
+    }
+
     // Generate SKU if not provided
     if (!this.sku) {
         const prefix = this.category.substring(0, 3).toUpperCase();

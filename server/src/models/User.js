@@ -21,6 +21,15 @@ const userSchema = new mongoose.Schema({
     trim: true,
     maxlength: [50, 'Display name cannot exceed 50 characters']
   },
+  profileImage: {
+    type: String,
+    default: null
+  },
+  bio: {
+    type: String,
+    maxlength: [500, 'Bio cannot exceed 500 characters'],
+    default: ''
+  },
   role: {
     type: String,
     enum: ['user', 'admin'],

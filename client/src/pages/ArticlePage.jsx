@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Navbar } from '../components/Navbar';
+import { ReviewSection } from '../components/ReviewSection';
 import { api } from '../services/api';
 
 export const ArticlePage = () => {
@@ -188,6 +189,9 @@ export const ArticlePage = () => {
                         </div>
                     </div>
                 </motion.article>
+
+                {/* Reviews Section */}
+                <ReviewSection targetType="Article" targetId={article._id} />
 
                 {/* Related Articles or CTA */}
                 <motion.div
