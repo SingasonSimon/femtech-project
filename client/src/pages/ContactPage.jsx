@@ -60,7 +60,7 @@ export const ContactPage = () => {
             href: 'https://wa.me/254742954960',
             color: 'text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300',
             bgColor: 'bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/30',
-            description: '+254 712 345 678'
+            description: '+254 742 954 960'
         },
         {
             name: 'GitHub',
@@ -108,7 +108,7 @@ export const ContactPage = () => {
             ),
             title: 'Phone',
             value: '+254 748 088 741',
-            subValue: '+254 712 345 678'
+            subValue: '+254 742 954 960'
         },
         {
             icon: (
