@@ -75,16 +75,16 @@ export const ReviewSection = ({ targetType, targetId }) => {
         }
     });
 
-    // Mark helpful mutation
-    const markHelpfulMutation = useMutation({
-        mutationFn: async (reviewId) => {
-            const response = await api.post(`/reviews/${reviewId}/helpful`);
-            return response.data;
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries(['reviews', targetType, targetId]);
-        }
-    });
+    // Mark helpful mutation - COMMENTED OUT FOR NOW
+    // const markHelpfulMutation = useMutation({
+    //     mutationFn: async (reviewId) => {
+    //         const response = await api.post(`/reviews/${reviewId}/helpful`);
+    //         return response.data;
+    //     },
+    //     onSuccess: () => {
+    //         queryClient.invalidateQueries(['reviews', targetType, targetId]);
+    //     }
+    // });
 
     const handleSubmitReview = (e) => {
         e.preventDefault();
@@ -315,14 +315,15 @@ export const ReviewSection = ({ targetType, targetId }) => {
                                 {review.comment}
                             </p>
 
-                            <div className="flex items-center gap-4 pt-3 border-t border-gray-200 dark:border-gray-700">
+                            {/* HELPFUL FEATURE - COMMENTED OUT FOR NOW */}
+                            {/* <div className="flex items-center gap-4 pt-3 border-t border-gray-200 dark:border-gray-700">
                                 {isAuthenticated && (
                                     <button
                                         onClick={() => markHelpfulMutation.mutate(review._id)}
                                         disabled={markHelpfulMutation.isPending}
                                         className={`text-sm flex items-center gap-1 ${review.helpful?.map(id => String(id)).includes(String(user?._id))
-                                            ? 'text-primary-600 dark:text-primary-400 font-semibold'
-                                            : 'text-gray-600 dark:text-gray-400'
+                                                ? 'text-primary-600 dark:text-primary-400 font-semibold'
+                                                : 'text-gray-600 dark:text-gray-400'
                                             } hover:text-primary-600 dark:hover:text-primary-400 transition-colors disabled:opacity-50`}
                                     >
                                         <svg className="w-4 h-4" fill={review.helpful?.map(id => String(id)).includes(String(user?._id)) ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
@@ -331,7 +332,7 @@ export const ReviewSection = ({ targetType, targetId }) => {
                                         {review.helpful?.map(id => String(id)).includes(String(user?._id)) ? 'Helpful' : 'Mark as Helpful'} ({review.helpful?.length || 0})
                                     </button>
                                 )}
-                            </div>
+                            </div> */}
                         </motion.div>
                     ))}
                 </div>
