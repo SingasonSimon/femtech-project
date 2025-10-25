@@ -14,7 +14,7 @@ const app = express();
 app.use(cors({
   origin: [
     process.env.CLIENT_URL,
-    'https://femtech-project-wooi-4q29e6t6w-singasons-projects-5e750d74.vercel.app'
+    'https://femtech-project-wooi-4q29e6t6w-singasons-projects-5e750d74.vercel.app/'
   ],
   credentials: true
 }));
