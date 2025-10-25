@@ -1,6 +1,8 @@
 import { validationResult } from 'express-validator';
+import mongoose from 'mongoose';
 import Product from '../models/Product.js';
 import View from '../models/View.js';
+import Review from '../models/Review.js';
 import { uploadToCloudinary } from '../config/cloudinary.js';
 
 export const createProduct = async (req, res) => {
@@ -238,6 +240,42 @@ export const getProduct = async (req, res) => {
     }
 };
 
+// Get product by ID (for admin editing)
+export const getProductById = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Validate ObjectId
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid product ID format'
+            });
+        }
+
+        const product = await Product.findById(id)
+            .populate('createdBy', 'displayName email');
+
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                message: 'Product not found'
+            });
+        }
+
+        res.json({
+            success: true,
+            data: product
+        });
+    } catch (error) {
+        console.error('Get product by ID error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch product'
+        });
+    }
+};
+
 export const updateProduct = async (req, res) => {
     try {
         const errors = validationResult(req);
@@ -250,6 +288,15 @@ export const updateProduct = async (req, res) => {
         }
 
         const { id } = req.params;
+
+        // Validate ObjectId
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid product ID format'
+            });
+        }
+
         const userId = req.user._id;
         const isAdmin = req.user.role === 'admin';
 
@@ -344,6 +391,15 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
     try {
         const { id } = req.params;
+
+        // Validate ObjectId
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid product ID format'
+            });
+        }
+
         const userId = req.user._id;
         const isAdmin = req.user.role === 'admin';
 
@@ -364,9 +420,16 @@ export const deleteProduct = async (req, res) => {
             });
         }
 
-        // Soft delete by setting isActive to false
-        product.isActive = false;
-        await product.save();
+        // Hard delete - permanently remove from database
+        await Product.findByIdAndDelete(id);
+
+        // Also delete related data
+        await Promise.all([
+            View.deleteMany({ targetType: 'Product', targetId: id }),
+            Review.deleteMany({ targetType: 'Product', targetId: id })
+        ]);
+
+        console.log(`Product ${id} and related data deleted successfully`);
 
         res.json({
             success: true,

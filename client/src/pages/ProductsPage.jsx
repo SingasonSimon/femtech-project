@@ -81,7 +81,7 @@ export const ProductsPage = () => {
                     {/* Header */}
                     <div className="relative text-center mb-12 pt-8 pb-4">
                         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-3">
-                            FemTech Products
+                            FemTech Products / Wearables
                         </h1>
                         <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-6">
                             Discover innovative products designed to support women's health and wellness journey.
@@ -187,7 +187,7 @@ export const ProductsPage = () => {
                                             {/* Price & Button */}
                                             <div className="flex items-center justify-between mt-auto">
                                                 <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">
-                                                    ${product.price?.toFixed(2)}
+                                                    KES {product.price?.toLocaleString()}
                                                 </span>
                                                 {/* This Link is clickable on its own, stopping propagation */}
                                                 <Link
@@ -219,7 +219,7 @@ export const ProductsPage = () => {
                                 <p className="text-gray-500 dark:text-gray-400">
                                     {filters.search || filters.category !== 'all'
                                         ? 'Try adjusting your search or filter criteria.'
-                                        : 'Check back soon for amazing FemTech products!'
+                                        : 'Check back soon for amazing FemTech Products / Wearables!'
                                     }
                                 </p>
                             </div>

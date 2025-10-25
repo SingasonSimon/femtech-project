@@ -37,8 +37,8 @@ export const ManageArticlesPage = () => {
 
     // Delete article mutation
     const deleteArticleMutation = useMutation({
-        mutationFn: async (slug) => {
-            const response = await api.delete(`/articles/${slug}`);
+        mutationFn: async (id) => {
+            const response = await api.delete(`/articles/${id}`);
             return response.data;
         },
         onSuccess: () => {
@@ -53,8 +53,8 @@ export const ManageArticlesPage = () => {
 
     // Toggle publish status mutation
     const togglePublishMutation = useMutation({
-        mutationFn: async ({ slug, published }) => {
-            const response = await api.put(`/articles/${slug}`, { published });
+        mutationFn: async ({ id, published }) => {
+            const response = await api.patch(`/articles/${id}`, { published });
             return response.data;
         },
         onSuccess: () => {
@@ -66,18 +66,22 @@ export const ManageArticlesPage = () => {
         }
     });
 
-    const handleDeleteArticle = (slug, title) => {
+    const handleDeleteArticle = (id, title) => {
         if (window.confirm(`Are you sure you want to delete article "${title}"? This action cannot be undone.`)) {
-            deleteArticleMutation.mutate(slug);
+            deleteArticleMutation.mutate(id);
         }
     };
 
-    const handleTogglePublish = (slug, currentStatus) => {
+    const handleTogglePublish = (id, currentStatus) => {
         const newStatus = !currentStatus;
         const action = newStatus ? 'publish' : 'unpublish';
         if (window.confirm(`Are you sure you want to ${action} this article?`)) {
-            togglePublishMutation.mutate({ slug, published: newStatus });
+            togglePublishMutation.mutate({ id, published: newStatus });
         }
+    };
+
+    const handleEdit = (article) => {
+        navigate(`/blog/edit/${article._id}`);
     };
 
     const getCategoryColor = (category) => {
@@ -200,7 +204,13 @@ export const ManageArticlesPage = () => {
                                                 View
                                             </Link>
                                             <button
-                                                onClick={() => handleTogglePublish(article.slug, article.published)}
+                                                onClick={() => handleEdit(article)}
+                                                className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-center"
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                onClick={() => handleTogglePublish(article._id, article.published)}
                                                 disabled={togglePublishMutation.isPending}
                                                 className="px-4 py-2 text-sm border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                                             >
@@ -213,7 +223,7 @@ export const ManageArticlesPage = () => {
                                                 {article.published ? 'Unpublish' : 'Publish'}
                                             </button>
                                             <button
-                                                onClick={() => handleDeleteArticle(article.slug, article.title)}
+                                                onClick={() => handleDeleteArticle(article._id, article.title)}
                                                 disabled={deleteArticleMutation.isPending}
                                                 className="px-4 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                                             >

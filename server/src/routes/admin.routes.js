@@ -5,7 +5,8 @@ import {
     getRecentActivity,
     getAllUsers,
     updateUserRole,
-    deleteUser
+    deleteUser,
+    getPeriodLogs
 } from '../controllers/adminController.js';
 
 const router = express.Router();
@@ -22,5 +23,8 @@ router.get('/activity', getRecentActivity);
 router.get('/users', getAllUsers);
 router.put('/users/:id/role', updateUserRole);
 router.delete('/users/:id', deleteUser);
+
+// Period logs management
+router.get('/period-logs', getPeriodLogs);
 
 export default router;

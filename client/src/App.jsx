@@ -12,12 +12,16 @@ import { ForumPage } from './pages/ForumPage';
 import { BlogPage } from './pages/BlogPage';
 import { ArticlePage } from './pages/ArticlePage';
 import { CreateArticlePage } from './pages/CreateArticlePage';
+import { EditArticlePage } from './pages/EditArticlePage';
 import { ProductsPage } from './pages/ProductsPage';
 import { ProductDetailPage } from './pages/ProductDetailPage';
 import { CreateProductPage } from './pages/CreateProductPage';
+import { EditProductPage } from './pages/EditProductPage';
 import { PostDetailPage } from './pages/PostDetailPage';
 import { ManageUsersPage } from './pages/ManageUsersPage';
 import { ManageArticlesPage } from './pages/ManageArticlesPage';
+import { ManageProductsPage } from './pages/ManageProductsPage';
+import { ManagePeriodLogsPage } from './pages/ManagePeriodLogsPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { ContactPage } from './pages/ContactPage';
@@ -93,6 +97,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/blog/edit/:id"
+          element={
+            <ProtectedRoute>
+              <EditArticlePage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:slug" element={<ProductDetailPage />} />
         <Route
@@ -100,6 +112,14 @@ function App() {
           element={
             <ProtectedRoute>
               <CreateProductPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products/edit/:id"
+          element={
+            <ProtectedRoute>
+              <EditProductPage />
             </ProtectedRoute>
           }
         />
@@ -121,6 +141,22 @@ function App() {
           element={
             <ProtectedRoute>
               <ManageArticlesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/products"
+          element={
+            <ProtectedRoute>
+              <ManageProductsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/period-logs"
+          element={
+            <ProtectedRoute>
+              <ManagePeriodLogsPage />
             </ProtectedRoute>
           }
         />

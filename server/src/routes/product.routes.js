@@ -4,6 +4,7 @@ import {
     createProduct,
     getProducts,
     getProduct,
+    getProductById,
     updateProduct,
     deleteProduct,
     getFeaturedProducts,
@@ -84,8 +85,10 @@ router.get('/:slug', optionalAuth, getProduct);
 router.use(authenticateToken);
 
 // Admin/Author routes
+router.get('/admin/:id', requireAdmin, getProductById); // Get product by ID for editing
 router.post('/', requireAdmin, upload.array('images', 5), productValidation, createProduct);
-router.put('/:slug', upload.array('images', 5), productValidation, updateProduct);
-router.delete('/:slug', deleteProduct);
+router.put('/:id', upload.array('images', 5), productValidation, updateProduct);
+router.patch('/:id', updateProduct); // For partial updates (no validation, no file upload)
+router.delete('/:id', deleteProduct);
 
 export default router;

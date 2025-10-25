@@ -200,15 +200,21 @@ export const DashboardPage = () => {
                             )}
 
                             {/* Admin Actions */}
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4">
                                 <Link to="/admin/users" className="p-3 sm:p-4 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors text-center text-sm sm:text-base font-medium">
                                     👥 Manage Users
                                 </Link>
                                 <Link to="/admin/articles" className="p-3 sm:p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors text-center text-sm sm:text-base font-medium">
                                     📝 Manage Articles
                                 </Link>
+                                <Link to="/admin/products" className="p-3 sm:p-4 rounded-lg bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors text-center text-sm sm:text-base font-medium">
+                                    🛍️ Manage Products
+                                </Link>
+                                <Link to="/admin/period-logs" className="p-3 sm:p-4 rounded-lg bg-pink-50 dark:bg-pink-900/20 text-pink-700 dark:text-pink-300 hover:bg-pink-100 dark:hover:bg-pink-900/30 transition-colors text-center text-sm sm:text-base font-medium">
+                                    📊 Period Logs
+                                </Link>
                                 <Link to="/admin/analytics" className="p-3 sm:p-4 rounded-lg bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors text-center text-sm sm:text-base font-medium">
-                                    📊 View Analytics
+                                    📈 View Analytics
                                 </Link>
                             </div>
                         </motion.div>

@@ -316,3 +316,36 @@ export const deleteUser = async (req, res) => {
         });
     }
 };
+
+// Get all period logs (admin only)
+export const getPeriodLogs = async (req, res) => {
+    try {
+        const { page = 1, limit = 20 } = req.query;
+
+        const skip = (parseInt(page) - 1) * parseInt(limit);
+
+        const logs = await PeriodEntry.find()
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(parseInt(limit))
+            .populate('userId', 'displayName email');
+
+        const total = await PeriodEntry.countDocuments();
+
+        res.json({
+            success: true,
+            data: logs,
+            pagination: {
+                current: parseInt(page),
+                pages: Math.ceil(total / limit),
+                total
+            }
+        });
+    } catch (error) {
+        console.error('Get period logs error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch period logs'
+        });
+    }
+};

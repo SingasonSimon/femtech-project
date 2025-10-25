@@ -214,11 +214,11 @@ export const ProductDetailPage = () => {
                             {/* Price */}
                             <div className="flex items-baseline space-x-3">
                                 <span className="text-4xl font-bold text-primary-600 dark:text-primary-400">
-                                    ${product.price?.toFixed(2)}
+                                    KES {product.price?.toLocaleString()}
                                 </span>
                                 {product.originalPrice && product.originalPrice > product.price && (
                                     <span className="text-xl text-gray-500 dark:text-gray-400 line-through">
-                                        ${product.originalPrice.toFixed(2)}
+                                        KES {product.originalPrice.toLocaleString()}
                                     </span>
                                 )}
                             </div>

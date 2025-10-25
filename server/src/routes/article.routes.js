@@ -78,7 +78,8 @@ router.use(authenticateToken);
 // Admin/Author routes
 router.post('/', requireAdmin, upload.single('image'), articleValidation, createArticle);
 router.get('/admin/:id', requireAdmin, getArticleById);
-router.put('/:id', articleValidation, updateArticle);
+router.put('/:id', upload.single('image'), articleValidation, updateArticle);
+router.patch('/:id', updateArticle); // For partial updates (no validation, no file upload)
 router.delete('/:id', deleteArticle);
 
 export default router;
